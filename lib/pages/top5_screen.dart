@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:top_coin/res/dimens.dart';
+import '../models/coin_entity.dart';
+import '../repository/coin_repository.dart';
+import 'coin_item.dart';
 
 class Top5Screen extends StatefulWidget {
   const Top5Screen({Key? key}) : super(key: key);
@@ -9,10 +11,29 @@ class Top5Screen extends StatefulWidget {
 }
 
 class _Top5ScreenState extends State<Top5Screen> {
+  var coinRespository = CoinRepository();
+  List<CoinEntity> listCoin5 = List.empty();
+  List<CoinEntity> listCoinAll = List.empty();
+
+  @override
+  void initState() {
+    super.initState();
+    getAPI();
+  }
+  void getAPI() async{
+    await coinRespository.getListCoin();
+    listCoinAll = [...CoinRepository.listCoinModel];
+    listCoinAll.sort((a, b) => (b.priceChangePercentage24h ?? 0).compareTo(a.priceChangePercentage24h ?? 0));
+    listCoin5 = [...listCoinAll.take(5)];
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Top5Screen', style: TextStyle(fontSize: 24.w),),
+    return ListView.builder(
+      itemCount: listCoin5.length,
+      itemBuilder: (BuildContext context, index) {
+        return CoinItem(coinItem: listCoin5[index]);
+      },
     );
   }
 }

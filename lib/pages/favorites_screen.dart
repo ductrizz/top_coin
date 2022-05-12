@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:top_coin/res/dimens.dart';
 
+import '../models/coin_entity.dart';
+import '../repository/coin_repository.dart';
+import 'coin_item.dart';
+
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
 
@@ -10,10 +14,28 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
+  var coinRespository = CoinRepository();
+  List<CoinEntity> listCoinFavorite = List.empty();
+  List<CoinEntity> listCoinAll = List.empty();
+
+
+  @override
+  void initState() {
+    super.initState();
+    getAPI();
+  }
+  void getAPI() async{
+    await coinRespository.getListCoin();
+    listCoinFavorite = [...listCoinAll.take(5)];
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('FavoritesScreen', style: TextStyle(fontSize: 24.w),),
+    return ListView.builder(
+      itemCount: listCoinFavorite.length,
+      itemBuilder: (BuildContext context, index) {
+        return CoinItem(coinItem: listCoinFavorite[index]);
+      },
     );
   }
 }
