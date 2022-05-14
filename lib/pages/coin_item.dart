@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:top_coin/models/coin_entity.dart';
+import 'package:top_coin/pages/detail_screen.dart';
 import 'package:top_coin/res/dimens.dart';
 
 class CoinItem extends StatelessWidget {
@@ -17,7 +19,10 @@ class CoinItem extends StatelessWidget {
       ),
       child: InkWell(
         onTap: (){
-          print('CoinName ::  ${coinItem?.name}');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DetailScreen(coinEntity: coinItem!)),
+          );
         },
         child: Row(
           children: [
@@ -28,9 +33,9 @@ class CoinItem extends StatelessWidget {
                 Container(
                     width: 30.w,
                     margin: EdgeInsets.all(5.w),
-                    child: Text('${coinItem?.marketCapRank}', style: TextStyle(color: Colors.black, fontSize: 16.w,fontWeight: FontWeight.w500),)
+                    child: Text('${coinItem?.marketCapRank?.toInt()}', style: TextStyle(color: Colors.black, fontSize: 16.w,fontWeight: FontWeight.w500),)
                 ),
-                Image.network(coinItem?.image ?? '', width: 50.w, height: 50.w,),
+                Image.network(coinItem?.image ?? '', width: 40.w, height: 40.w,),
                 SizedBox(width: 15.w,),
                 Text(coinItem?.name ?? '', style: TextStyle(color: Colors.black, fontSize: 14.w,fontWeight: FontWeight.w400),),
               ],
