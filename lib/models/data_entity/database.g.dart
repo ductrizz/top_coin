@@ -158,7 +158,7 @@ class _$CoinDao extends CoinDao {
   }
 
   @override
-  Stream<CoinEntity?> findCoinById(int id) {
+  Stream<CoinEntity?> findCoinById(String id) {
     return _queryAdapter.queryStream('SELECT * FROM Person WHERE id = ?1',
         mapper: (Map<String, Object?> row) => CoinEntity(
             id: row['id'] as String?,
@@ -177,7 +177,7 @@ class _$CoinDao extends CoinDao {
   }
 
   @override
-  Stream<CoinEntity?> deleteCoinById(int id) {
+  Stream<CoinEntity?> deleteCoinById(String id) {
     return _queryAdapter.queryStream('DELETE * FROM Person WHERE id = ?1',
         mapper: (Map<String, Object?> row) => CoinEntity(
             id: row['id'] as String?,

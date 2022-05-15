@@ -7,10 +7,10 @@ abstract class CoinDao {
   Future<List<CoinEntity>> findAllPersons();
 
   @Query('SELECT * FROM Person WHERE id = :id')
-  Stream<CoinEntity?> findCoinById(int id);
+  Stream<CoinEntity?> findCoinById(String id);
 
   @Query('DELETE * FROM Person WHERE id = :id')
-  Stream<CoinEntity?> deleteCoinById(int id);
+  Stream<CoinEntity?> deleteCoinById(String id);
 
   @insert
   Future<void> insertCoin(CoinEntity coinEntity);
