@@ -14,9 +14,9 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  var coinRespository = CoinRepository();
+  CoinRepository coinRespository = CoinRepository();
   List<CoinEntity> listCoinFavorite = List.empty();
-  List<CoinEntity> listCoinAll = List.empty();
+  bool isFavorite = false;
 
 
   @override
@@ -26,7 +26,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
   void getAPI() async{
     await coinRespository.getListCoin();
-    listCoinFavorite = [...listCoinAll.take(5)];
+    listCoinFavorite = await coinRespository.getlistFavorite();
     setState(() {});
   }
   @override

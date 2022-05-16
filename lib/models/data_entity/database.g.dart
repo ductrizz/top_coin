@@ -98,7 +98,7 @@ class _$AppDatabase extends AppDatabase {
 
 class _$CoinDao extends CoinDao {
   _$CoinDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+      : _queryAdapter = QueryAdapter(database),
         _coinEntityInsertionAdapter = InsertionAdapter(
             database,
             'CoinEntity',
@@ -112,8 +112,7 @@ class _$CoinDao extends CoinDao {
                   'marketCapRank': item.marketCapRank,
                   'priceChange24h': item.priceChange24h,
                   'priceChangePercentage24h': item.priceChangePercentage24h
-                },
-            changeListener),
+                }),
         _coinEntityDeletionAdapter = DeletionAdapter(
             database,
             'CoinEntity',
@@ -128,8 +127,7 @@ class _$CoinDao extends CoinDao {
                   'marketCapRank': item.marketCapRank,
                   'priceChange24h': item.priceChange24h,
                   'priceChangePercentage24h': item.priceChangePercentage24h
-                },
-            changeListener);
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -142,7 +140,7 @@ class _$CoinDao extends CoinDao {
   final DeletionAdapter<CoinEntity> _coinEntityDeletionAdapter;
 
   @override
-  Future<List<CoinEntity>> findAllPersons() async {
+  Future<List<CoinEntity>> findAllCoin() async {
     return _queryAdapter.queryList('SELECT * FROM CoinEntity',
         mapper: (Map<String, Object?> row) => CoinEntity(
             id: row['id'] as String?,
@@ -158,8 +156,8 @@ class _$CoinDao extends CoinDao {
   }
 
   @override
-  Stream<CoinEntity?> findCoinById(String id) {
-    return _queryAdapter.queryStream('SELECT * FROM Person WHERE id = ?1',
+  Future<CoinEntity?> findCoinById(String id) async {
+    return _queryAdapter.query('SELECT * FROM CoinEntity WHERE id = ?1',
         mapper: (Map<String, Object?> row) => CoinEntity(
             id: row['id'] as String?,
             symbol: row['symbol'] as String?,
@@ -171,14 +169,12 @@ class _$CoinDao extends CoinDao {
             priceChange24h: row['priceChange24h'] as double?,
             priceChangePercentage24h:
                 row['priceChangePercentage24h'] as double?),
-        arguments: [id],
-        queryableName: 'CoinEntity',
-        isView: false);
+        arguments: [id]);
   }
 
   @override
-  Stream<CoinEntity?> deleteCoinById(String id) {
-    return _queryAdapter.queryStream('DELETE * FROM Person WHERE id = ?1',
+  Future<CoinEntity?> deleteCoinById(String id) async {
+    return _queryAdapter.query('DELETE * FROM CoinEntity WHERE id = ?1',
         mapper: (Map<String, Object?> row) => CoinEntity(
             id: row['id'] as String?,
             symbol: row['symbol'] as String?,
@@ -190,9 +186,7 @@ class _$CoinDao extends CoinDao {
             priceChange24h: row['priceChange24h'] as double?,
             priceChangePercentage24h:
                 row['priceChangePercentage24h'] as double?),
-        arguments: [id],
-        queryableName: 'CoinEntity',
-        isView: false);
+        arguments: [id]);
   }
 
   @override

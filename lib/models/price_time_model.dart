@@ -1,7 +1,7 @@
 
 class PriceTimeModel{
-  DateTime dateTime;
-  String price;
+  DateTime? dateTime;
+  String? price;
 
   @override
   String toString() {

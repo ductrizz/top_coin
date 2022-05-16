@@ -64,6 +64,11 @@ class CoinEntity {
   double? priceChange24h;
   double? priceChangePercentage24h;
 
+  @override
+  String toString() {
+    return 'CoinEntity{id: $id, symbol: $symbol, name: $name, image: $image, currentPrice: $currentPrice, marketCap: $marketCap, marketCapRank: $marketCapRank, priceChange24h: $priceChange24h, priceChangePercentage24h: $priceChangePercentage24h}';
+  }
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
