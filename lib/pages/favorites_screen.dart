@@ -26,7 +26,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
   void getAPI() async{
     await coinRespository.getListCoin();
-    listCoinFavorite = await coinRespository.getlistFavorite();
+    listCoinFavorite = await coinRespository.getListFavorite();
     setState(() {});
   }
   @override

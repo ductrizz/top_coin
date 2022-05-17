@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:top_coin/models/coin_entity.dart';
 import 'package:top_coin/repository/coin_repository.dart';
-import 'package:top_coin/res/dimens.dart';
-
 import 'coin_item.dart';
 
 class Top100Screen extends StatefulWidget {

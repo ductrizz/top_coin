@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:top_coin/models/chart_entity.dart';
 import 'package:top_coin/models/coin_entity.dart';
@@ -12,20 +11,19 @@ import '../models/data_entity/database.dart';
 
 class CoinRepository {
   static List<CoinEntity> listCoinModel = List.empty();
-  List<PriceTimeModel> listPriceTime = [];
-  static String _urlAPI =
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
   static CoinDao? coinDao;
+  var dio = Dio();
 
   Future<void> getListCoin() async {
-    var dio = Dio();
+    const String _urlAPI =
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
     final response = await dio.get(_urlAPI);
     listCoinModel = List<CoinEntity>.from(
         (response.data as List).map((e) => CoinEntity.fromJson(e)));
   }
 
   Future<List<charts.Series<PriceTimeModel, DateTime>>> getChartCoin({required String id, required int duration}) async {
-    listPriceTime.clear();
+    List<PriceTimeModel> listPriceTime = [];
     var _timeFrom = (DateTime.now()
                 .subtract(Duration(hours: duration))
                 .toUtc()
@@ -37,16 +35,16 @@ class CoinRepository {
         .round()
         .toString();
     var _urlAPIChart =
-        "https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${_timeFrom}&to=${_timeTo}";
-    var dio = Dio();
+        "https://api.coingecko.com/api/v3/coins/$id/market_chart/range?vs_currency=usd&from=$_timeFrom&to=$_timeTo";
+    //var dio = Dio();
     //Get API
     final responseChart = await dio.get(_urlAPIChart);
     ChartEntity? listChartModel = ChartEntity.fromJson(responseChart.data);
     listChartModel.prices?.forEach((element) {
-      final item = PriceTimeModel(
-          dateTime: DateTime.fromMillisecondsSinceEpoch(element[0]),
-          price: element[1].toString());
-      listPriceTime.add(item);
+        final item = PriceTimeModel(
+            dateTime: DateTime.fromMillisecondsSinceEpoch(element[0]),
+            price: element[1].toString());
+        listPriceTime.add(item);
     });
     //Return to Series Chart
     return Future.value([
@@ -87,7 +85,7 @@ class CoinRepository {
     }
   }
 
-  Future<List<CoinEntity>> getlistFavorite() async{
+  Future<List<CoinEntity>> getListFavorite() async{
     var listFavorite = await coinDao?.findAllCoin();
     return Future.value(listFavorite ??  List.empty());
   }
