@@ -3,8 +3,6 @@ import 'package:top_coin/pages/favorites_screen.dart';
 import 'package:top_coin/pages/search_screen.dart';
 import 'package:top_coin/pages/top100_screen.dart';
 import 'package:top_coin/pages/top5_screen.dart';
-
-import 'pages/coin_item.dart';
 import 'repository/coin_repository.dart';
 
 void main() async {

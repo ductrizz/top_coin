@@ -4,15 +4,16 @@ import 'package:dio/dio.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:top_coin/models/chart_entity.dart';
 import 'package:top_coin/models/coin_entity.dart';
-import 'package:top_coin/models/data_entity/coin_dao.dart';
+import 'package:top_coin/repository/data_entity/coin_dao.dart';
 import 'package:top_coin/models/price_time_model.dart';
+import 'package:top_coin/repository/base_dio.dart';
 
-import '../models/data_entity/database.dart';
+import '../repository/data_entity/database.dart';
 
 class CoinRepository {
   static List<CoinEntity> listCoinModel = List.empty();
   static CoinDao? coinDao;
-  var dio = Dio();
+  var dio = BaseDio.getDio();
 
   Future<void> getListCoin() async {
     const String _urlAPI =

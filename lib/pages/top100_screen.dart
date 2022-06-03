@@ -19,11 +19,13 @@ class _Top100ScreenState extends State<Top100Screen>{
     super.initState();
     getAPI();
   }
+
   void getAPI() async{
     await coinRespository.getListCoin();
     listCoin100 = CoinRepository.listCoinModel;
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
